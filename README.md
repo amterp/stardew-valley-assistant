@@ -1,1 +1,1 @@
-# stardew-vally-assistant
+# stardew-valley-assistant
