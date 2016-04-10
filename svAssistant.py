@@ -324,7 +324,7 @@ def per_day_income(crop_name, date):
         sell_price = crops_store_values[crop_name]["sell"]
         crop_yield = crops_growth_values[crop_name]["yield"]
         seed_cost = crops_store_values[crop_name]["cost"]
-        income_per_day = (most_n_harvests * sell_price * crop_yield - seed_cost) / total_days
+        income_per_day = (most_n_harvests * sell_price * crop_yield - (most_n_harvests * seed_cost)) / total_days
         return income_per_day
 
 def determine_purchase(budget, number_seeds, type_seeds):
