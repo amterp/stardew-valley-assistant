@@ -109,14 +109,19 @@ def main_menu():
     """
     Brings up the main menu and its choices.
     """
+    error = False
     while True:
         system('cls')   # Clears the window
         options = ["Assist purchase", "Exit"]
         print("What can I do for you?")
         # Prints out the options array in a numbered fashion
         print_options(options)
-        p_input = int(input())
-        if p_input == 1:
+        if error:
+            print("Sorry I don't understand. Please enter either 1 or 2.")
+        else:
+            print("")
+        p_input = input()
+        if p_input == "1":
             season       = set_season()
             date         = set_date()
             budget       = set_budget()
@@ -124,11 +129,11 @@ def main_menu():
             type_seeds   = set_type_seeds(season, date)
             determine_purchase(budget, number_seeds, type_seeds)
             break
-        elif p_input == 2:
+        elif p_input == "2":
             print("Goodbye!")
             break
         else:
-            "Sorry I don't understand. Please enter either 1 or 2."
+            error = True
 
 def print_options(array, nummed=1, direction="horiz"):
     """
@@ -184,13 +189,13 @@ def set_date():
     while True:
         system('cls')    # Clears the window
         print("What date is it?")
-        # Prints out the options array in a numbered fashion
-        p_input = input()
         if error:
-            print("Sorry I didn't understand. Please enter a number.")
+            print("Sorry I didn't understand. Please enter a number between 1 and 28.")
             error = False
         else:
             print("")
+        # Prints out the options array in a numbered fashion
+        p_input = input()
         if p_input.isdigit() and 1 <= int(p_input) <= 28:
             return int(p_input)
         else:
@@ -206,12 +211,12 @@ def set_budget():
         system('cls') # Clears the window
         print("What's your budget?")
         if error:
-            print("Sorry I didn't understand. Please enter a number.")
+            print("Sorry I didn't understand. Please enter a number greater than 0.")
             error = False
         else:
             print("")
         p_input = input()
-        if p_input.isdigit():
+        if p_input.isdigit() and int(p_input) > 0:
             return int(p_input)
         else:
             error = True
@@ -226,10 +231,12 @@ def set_number_seeds():
         system('cls') # Clears the window
         print("How many seeds do you wish to buy?")
         if error:
-            print("Sorry I didn't understand. Please enter a number.")
+            print("Sorry I didn't understand. Please enter a number greater than 0.")
             error = False
+        else:
+            print("")
         p_input = input()
-        if p_input.isdigit():
+        if p_input.isdigit() and int(p_input) > 0:
             return int(p_input)
         else:
             error = True
@@ -339,18 +346,17 @@ def determine_purchase(budget, number_seeds, type_seeds):
     money = budget
     i = 0
     # While there's more money than the cheapest seed is worth (i.e. can still
-    # purchase more seeds.) do the following.
-    while money >= min(seed_prices):
+    # purchase more seeds.) and there's still more room for seeds, do the following.
+    while money >= min(seed_prices) and number_seeds > 0:
         # The max number of this type of seed that can be bought with the current
         # money remaining.
-        max_seeds = money // crops_store_values[type_seeds[i]]['cost']
-        # Calculates remaining money after purchase of above number of seeds.
-        money %= crops_store_values[type_seeds[i]]['cost']
-        # Number of seeds left to buy is reduced as seeds are bought.
+        max_seeds = money // crops_store_values[type_seeds[i]]['cost']        # Number of seeds left to buy is reduced as seeds are bought.
         number_seeds -= max_seeds
         # Ensures that more seeds than specified are not being bought.
         if number_seeds < 0:
             max_seeds += number_seeds
+        # Calculates remaining money after purchase of above number of seeds.
+        money -= max_seeds * crops_store_values[type_seeds[i]]['cost']
         seeds_to_purchase.append(max_seeds)
         # If the specified number of seeds to buy is met, stop buying more.
         if number_seeds == 0:
