@@ -2,7 +2,7 @@
 # Written by:   Terpal47
 # Date begun:   09/04/2016
 # Version date: 10/04/2016
-# Version:      1.0
+# Version:      1.01
 # Description:  As assistant application that allows the user to input the date, budget, and desired
 #               number and types of seeds in the video game Stardew Valley, and returns the optimal
 #               types and amounts of seeds to purchase.
