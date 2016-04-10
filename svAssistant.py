@@ -317,7 +317,7 @@ def per_day_income(crop_name, date):
         # the amount of money that'd be lost per day until the end of the month if the seed
         # was purchased.
         if most_n_harvests == 0:
-            return crops_store_values[crop_name]['cost'] / post_growth_days
+            return -1 * crops_store_values[crop_name]['cost'] / post_growth_days
         # Total days of growing, including time over multiple harvests.
         total_days = most_n_harvests * crops_growth_values[crop_name]["grow_time"]
         # For simplicity, the sell price, yield, and cost of the crops are extracted here.
