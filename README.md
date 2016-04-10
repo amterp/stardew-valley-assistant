@@ -7,10 +7,10 @@ As assistant application that allows the user to input the date, budget, and des
 number and types of seeds in the video game Stardew Valley, and returns the optimal
 types and amounts of seeds to purchase.
 
-INSTALLATION:
-0. Install Python 3 or higher (Google it if unsure how, you'll see it's a simple process)
-1. Go to https://github.com/Terpal47/stardew-valley-assistant
-2. Click on "Download Zip"
+INSTALLATION: \n
+0. Install Python 3 or higher (Google it if unsure how, you'll see it's a simple process) \n
+1. Go to https://github.com/Terpal47/stardew-valley-assistant \n
+2. Click on "Download Zip" \n
 3. Extract the zip into an accessable folder of your choice.
 
 LAUNCHING:
