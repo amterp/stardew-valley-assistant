@@ -1,6 +1,8 @@
 #---------------------------------------------------------------------------------------------------
-# Written by:   Alexander Terp
-# Date:         09/04/2016
+# Written by:   Terpal47
+# Date begun:   09/04/2016
+# Version date: 10/04/2016
+# Version:      1.0
 # Description:  As assistant application that allows the user to input the date, budget, and desired
 #               number and types of seeds in the video game Stardew Valley, and returns the optimal
 #               types and amounts of seeds to purchase.
@@ -105,31 +107,30 @@ crops_growth_values = {
 
 def main_menu():
     """
-    Defines a function that brings up the main menu and its choices.
+    Brings up the main menu and its choices.
     """
     while True:
         system('cls')   # Clears the window
         options = ["Assist purchase", "Exit"]
         print("What can I do for you?")
         # Prints out the options array in a numbered fashion
-        print_options(options, 1)
+        print_options(options)
         p_input = int(input())
         if p_input == 1:
-            season = set_season()
-            date = set_date()
-            budget = set_budget()
+            season       = set_season()
+            date         = set_date()
+            budget       = set_budget()
             number_seeds = set_number_seeds()
-            type_seeds = set_type_seeds(season, date)
+            type_seeds   = set_type_seeds(season, date)
             determine_purchase(budget, number_seeds, type_seeds)
             break
         elif p_input == 2:
             print("Goodbye!")
             break
         else:
-            "Sorry I didn't understand. Write the number corresponding to " \
-            "what you wish to do."
+            "Sorry I don't understand. Please enter either 1 or 2."
 
-def print_options(array, nummed, direction="horiz"):
+def print_options(array, nummed=1, direction="horiz"):
     """
     Defines a function that takes in options in an array and prints them out
     # numbered if nummed = 1 or plainly if nummed = 2. dir determines if they're 
@@ -154,62 +155,101 @@ def print_options(array, nummed, direction="horiz"):
             print(option)
 
 def set_season():
+    """
+    Facilitates the user entering what season it is. Returns the appropriate string.
+    """
+    error = False
     while True:
         system('cls')   # Clears the window
         options = ["Spring", "Summer", "Fall"]
         print("What season is it?")
         # Prints out the options array in a numbered fashion
-        print_options(options, 1)
+        print_options(options)
+        if error:
+            print("Sorry I didn't understand. Please enter either 1, 2, or 3")
+            error = False
+        else:
+            print("")
         p_input = input()
         if p_input.isdigit() and 1 <= int(p_input) <= 3:
             return options[int(p_input) - 1].lower()
         else:
-            "Sorry I didn't understand. Write the number corresponding to " \
-            "what season it is."
+            error = True
 
 def set_date():
+    """
+    Facilitates the user entering what date it is. Returns it as an int.
+    """
+    error = False
     while True:
         system('cls')    # Clears the window
         print("What date is it?")
         # Prints out the options array in a numbered fashion
         p_input = input()
+        if error:
+            print("Sorry I didn't understand. Please enter a number.")
+            error = False
+        else:
+            print("")
         if p_input.isdigit() and 1 <= int(p_input) <= 28:
             return int(p_input)
         else:
-            print("Sorry I didn't understand. Please enter a number.")
+            error = True
 
 def set_budget():
+    """
+    Facilitates the user entering the maximum amount of gold they're willing to use. 
+    Returns it as an int.
+    """
+    error = False
     while True:
         system('cls') # Clears the window
         print("What's your budget?")
+        if error:
+            print("Sorry I didn't understand. Please enter a number.")
+            error = False
+        else:
+            print("")
         p_input = input()
         if p_input.isdigit():
             return int(p_input)
         else:
-            "Sorry I didn't understand. Please enter a number."
+            error = True
 
 def set_number_seeds():
+    """
+    Facilitates the user entering the maximum number of seeds they are willing
+    and able to purchase. Returns it as an int.
+    """
+    error = False
     while True:
         system('cls') # Clears the window
         print("How many seeds do you wish to buy?")
+        if error:
+            print("Sorry I didn't understand. Please enter a number.")
+            error = False
         p_input = input()
         if p_input.isdigit():
             return int(p_input)
         else:
-            "Sorry I didn't understand. Please enter a number."
+            error = True
 
 def set_type_seeds(season, date):
+    """
+    Using the season and date, it faciliates the user making educated choices
+    (due to having the net income/day visibly present) about what seeds they're
+    willing and able to purchase. Returns a list containing the names of those seeds.
+    """
     crop_incomes = []
     for crop in season_crops[season]:
         crop_incomes.append((per_day_income(crop, date), crop))
     crop_incomes = sorted(crop_incomes, reverse=True)
     formatted_crop_incomes = []
     for i in range(len(crop_incomes)):
-        formatted_crop_incomes.append("{}{}".format(crop_incomes[i][1] + " " * (12 - len(crop_incomes[i][1])), crop_incomes[i][0]))
-    error = False
+        formatted_crop_incomes.append("{}{}".format(crop_incomes[i][1] + " " * (15 - len(crop_incomes[i][1])), crop_incomes[i][0]))
     desired_seeds = []
-    i = 0
-    while i < 2:
+    error = False
+    while len(formatted_crop_incomes) > 0:
         system('cls')   # Clears the window
         print("What seeds do you wish to buy? (Highest priority first) (Write 'done' when you're finished choosing)")
         # Prints out the options array in a vertically, numbered fashion
@@ -239,6 +279,7 @@ def per_day_income(crop_name, date):
     of gold that the crop can produce if harvested until the end of its life
     span.
     """
+    # If-block triggered if the crop is a multi-harvestable crop (e.g. strawberries)
     if crop_name in multiharvest_crops:
         # Number of days left after the crop has fully grown.
         post_growth_days = 28 - date - crops_growth_values[crop_name]\
@@ -258,12 +299,21 @@ def per_day_income(crop_name, date):
                                                         ["produce_time"]
         income_per_day = (most_n_harvests * crops_store_values[crop_name]["sell"] - crops_store_values[crop_name]["cost"]) / total_days
         return income_per_day
+    # Else-block is triggered if the crop is NOT a multi-harvestable crop (e.g. potatoes)
     else:
+        # Number of days left in the month after the crop has fully grown.
         post_growth_days = 28 - date
+        # If the plant is repeatadly planted and harvested until the end of the month,
+        # most_n_harvests is the maximum amount of times you'd be able to harvest.
         most_n_harvests = post_growth_days // crops_growth_values[crop_name]["grow_time"]
+        # Prevents dividing by zero a few lines down. Instead ends function and returns
+        # the amount of money that'd be lost per day until the end of the month if the seed
+        # was purchased.
         if most_n_harvests == 0:
-            return 0
+            return crops_store_values[crop_name]['cost'] / post_growth_days
+        # Total days of growing, including time over multiple harvests.
         total_days = most_n_harvests * crops_growth_values[crop_name]["grow_time"]
+        # For simplicity, the sell price, yield, and cost of the crops are extracted here.
         sell_price = crops_store_values[crop_name]["sell"]
         crop_yield = crops_growth_values[crop_name]["yield"]
         seed_cost = crops_store_values[crop_name]["cost"]
@@ -276,24 +326,62 @@ def determine_purchase(budget, number_seeds, type_seeds):
     Prints how much of each seed that should be purchased.
     """
     system('cls')
-    cost_seed_1 = crops_store_values[type_seeds[0]]["cost"]
-    cost_seed_2 = crops_store_values[type_seeds[1]]["cost"]
-    seeds_to_buy = cramer(cost_seed_1, cost_seed_2, 1, 1, budget, number_seeds)
-    print("You should buy {} {} seeds.".format(int(seeds_to_buy[0]), type_seeds[0]))
-    print("You should buy {} {} seeds.".format(int(seeds_to_buy[1]), type_seeds[1]))
-    print("")
+    # List containing all the prices of each type of crop in the type_seeds
+    # list. Used later to find the cheapest seed in the list.
+    seed_prices = []
+    for seed in type_seeds:
+        seed_prices.append(crops_store_values[seed]['cost'])
+    # List containing how many of each seed type that should be purchased. By
+    # matching indexes, those numbers can be associated with the seed types.
+    seeds_to_purchase = []
+    # Money will be subtracted as the number of seeds to buy of one type
+    # is determined.
+    money = budget
+    i = 0
+    # While there's more money than the cheapest seed is worth (i.e. can still
+    # purchase more seeds.) do the following.
+    while money >= min(seed_prices):
+        # The max number of this type of seed that can be bought with the current
+        # money remaining.
+        max_seeds = money // crops_store_values[type_seeds[i]]['cost']
+        # Calculates remaining money after purchase of above number of seeds.
+        money %= crops_store_values[type_seeds[i]]['cost']
+        # Number of seeds left to buy is reduced as seeds are bought.
+        number_seeds -= max_seeds
+        # Ensures that more seeds than specified are not being bought.
+        if number_seeds < 0:
+            max_seeds += number_seeds
+        seeds_to_purchase.append(max_seeds)
+        # If the specified number of seeds to buy is met, stop buying more.
+        if number_seeds == 0:
+            break
+        i += 1
 
-def cramer(a1, a2, b1, b2, c1, c2):
-    """
-    Solves a 2x2 system of equations in the form of
-    a1x + a2y = c1
-    b1x + b2y = c2
-    """
-    D = (a1 * b2) - (a2 * b1)
-    Dx = (c1 * b2) - (a2 * c2)
-    Dy = (a1 * c2) - (c1 * b1)
-    x = Dx/D
-    y = Dy/D
-    return (x, y)
+    error = False
+    while True:
+        system('cls')
+        # Prints out a sentence for every seed specifying how many you should buy and of 
+        # which type.
+        for i in range(len(seeds_to_purchase)):
+            print("You should purchase {} {} seeds.".format(seeds_to_purchase[i], type_seeds[i]))
+        print("")
+        print("What would you like to do now?")
+        options = ["Return to main menu", "Exit"]
+        print_options(options)
+        if error:
+            print("Sorry I don't understand. Please enter either 1 or 2.")
+            error = False
+        else:
+            print("")
+        p_input = input()
+        if p_input == "1":
+            main_menu()
+            break
+        elif p_input == "2": 
+            print("Goodbye!")
+            break
+        else:
+            error = True
 
+# Starts the program. 
 main_menu()
