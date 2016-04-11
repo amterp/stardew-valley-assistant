@@ -362,7 +362,7 @@ def per_day_income(crop_name, date):
         most_n_harvests = post_growth_days // crops_growth_values[crop_name]\
                                                                 ["grow_time"]
         # Prevents dividing by zero a few lines down. Instead ends function and
-        # returns the amount of money that'd be lost per day until the end of
+        # returns the amount of gold that'd be lost per day until the end of
         # the month if the seed was purchased.
         if most_n_harvests == 0:
             return -1 * crops_store_values[crop_name]['cost'] / \
@@ -398,22 +398,22 @@ def determine_purchase(budget, number_seeds, type_seeds):
     seeds_to_purchase = []
     # Money will be subtracted as the number of seeds to buy of one type
     # is determined.
-    money = budget
+    gold = budget
     i = 0
-    # While there's more money than the cheapest seed is worth (i.e. can still
+    # While there's more gold than the cheapest seed is worth (i.e. can still
     # purchase more seeds.) and there's still more room for seeds, do the
     # following...
-    while money >= min(seed_prices) and number_seeds > 0:
+    while gold >= min(seed_prices) and number_seeds > 0:
         # The max number of this type of seed that can be bought with the
-        # current money remaining.
-        max_seeds = money // crops_store_values[type_seeds[i]]['cost']
+        # current gold remaining.
+        max_seeds = gold // crops_store_values[type_seeds[i]]['cost']
         # Number of seeds left to buy is reduced as seeds are bought.
         number_seeds -= max_seeds
         # Ensures that more seeds than specified are not being bought.
         if number_seeds < 0:
             max_seeds += number_seeds
-        # Calculates remaining money after purchase of above number of seeds.
-        money -= max_seeds * crops_store_values[type_seeds[i]]['cost']
+        # Calculates remaining gold after purchase of above number of seeds.
+        gold -= max_seeds * crops_store_values[type_seeds[i]]['cost']
         seeds_to_purchase.append(max_seeds)
         # If the specified number of seeds to buy is met, stop buying more.
         if number_seeds == 0:
@@ -423,10 +423,11 @@ def determine_purchase(budget, number_seeds, type_seeds):
     error = False
     while True:
         clear_screen()
-        # Prints out a sentence for every seed specifying how many you should buy and of 
-        # which type.
+        # Prints out a sentence for every seed specifying how many you should 
+        # buy and of which type.
         for i in range(len(seeds_to_purchase)):
-            print("You should purchase {} {} seeds.".format(seeds_to_purchase[i], type_seeds[i]))
+            print("You should purchase {} {} seeds.".format(\
+                                        seeds_to_purchase[i], type_seeds[i]))
         print("")
         print("What would you like to do now?")
         options = ["Return to main menu", "Exit"]
