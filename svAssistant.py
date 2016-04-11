@@ -1,12 +1,11 @@
-#---------------------------------------------------------------------------------------------------
-# Written by:   Terpal47
-# Date begun:   09/04/2016
-# Version date: 10/04/2016
-# Version:      1.03
-# Description:  As assistant application that allows the user to input the date, budget, and desired
-#               number and types of seeds in the video game Stardew Valley, and returns the optimal
-#               types and amounts of seeds to purchase.
-#---------------------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------------------------------
+# Original author:  Terpal47
+# Contributors:     jjcf89
+# Date:             09/04/2016
+# Description:      As assistant application that allows the user to input the date, budget, and desired
+#                   number and types of seeds in the video game Stardew Valley, and returns the optimal
+#                   types and amounts of seeds to purchase.
+#-------------------------------------------------------------------------------------------------------
 import os
 
 # Define several dictionaries and lists to be used globally.
