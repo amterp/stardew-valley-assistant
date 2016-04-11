@@ -1,5 +1,4 @@
 # stardew-valley-assistant
-# csv-addition
 
 By: Terpal47
 
