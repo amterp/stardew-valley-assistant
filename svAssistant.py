@@ -1,11 +1,12 @@
-#-------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 # Original author:  Terpal47
 # Contributors:     jjcf89
 # Date:             09/04/2016
-# Description:      As assistant application that allows the user to input the date, budget, and desired
-#                   number and types of seeds in the video game Stardew Valley, and returns the optimal
-#                   types and amounts of seeds to purchase.
-#-------------------------------------------------------------------------------------------------------
+# Description:      As assistant application that allows the user to input the
+#                   date, budget, and desired number and types of seeds in the
+#                   video game Stardew Valley, and returns the optimal types
+#                   and amounts of seeds to purchase.
+#------------------------------------------------------------------------------
 import os
 
 # Define several dictionaries and lists to be used globally.
@@ -71,23 +72,29 @@ crops_growth_values = {
 # 'yield' is the number of crops you recieve per harvest.
 "Cauliflower": {"grow_time": 12, "harvests/crop": 1, "yield": 1},
 "Garlic": {"grow_time": 4, "harvests/crop": 1, "yield": 1},
-"Green Bean": {"grow_time": 10, "produce_time": 3, "harvests/crop": 999, "yield": 1},
+"Green Bean": {"grow_time": 10, "produce_time": 3, "harvests/crop": 999, \
+                                                                "yield": 1},
 "Kale": {"grow_time": 6, "harvests/crop": 1, "yield": 1},
 "Parsnip": {"grow_time": 4, "harvests/crop": 1, "yield": 1},
 "Potato": {"grow_time": 6, "harvests/crop": 1, "yield": 1.25},
 "Rhubarb": {"grow_time": 13, "harvests/crop": 1, "yield": 1},
-"Strawberry": {"grow_time": 8, "produce_time": 4, "harvests/crop": 999, "yield": 1},
+"Strawberry": {"grow_time": 8, "produce_time": 4, "harvests/crop": 999, \
+                                                                "yield": 1},
 "Blue Jazz": {"grow_time": 7, "harvests/crop": 1, "yield": 1},
 "Tulip": {"grow_time": 6, "harvests/crop": 1, "yield": 1},
-"Blueberry": {"grow_time": 13, "produce_time": 4, "harvests/crop": 999, "yield": 3},
-"Corn": {"grow_time": 14, "produce_time": 4, "harvests/crop": 999, "yield": 1},
+"Blueberry": {"grow_time": 13, "produce_time": 4, "harvests/crop": 999, \
+                                                                "yield": 3},
+"Corn": {"grow_time": 14, "produce_time": 4, "harvests/crop": 999, \
+                                                                "yield": 1},
 "Hops": {"grow_time": 11, "produce_time": 1, "harvests/crop": 999, "yield": 1},
-"Hot Pepper": {"grow_time": 5, "produce_time": 3, "harvests/crop": 999, "yield": 1},
+"Hot Pepper": {"grow_time": 5, "produce_time": 3, "harvests/crop": 999, \
+                                                                "yield": 1},
 "Melon": {"grow_time": 12, "harvests/crop": 1, "yield": 1},
 "Radish": {"grow_time": 6, "harvests/crop": 1, "yield": 1},
 "Red Cabbage": {"grow_time": 9, "harvests/crop": 1, "yield": 1},
 "Starfruit": {"grow_time": 13, "harvests/crop": 1, "yield": 1},
-"Tomato": {"grow_time": 11, "produce_time": 4, "harvests/crop": 5, "yield": 1},
+"Tomato": {"grow_time": 11, "produce_time": 4, "harvests/crop": 5, \
+                                                                "yield": 1},
 "Wheat": {"grow_time": 4, "harvests/crop": 1, "yield": 1},
 "Poppy": {"grow_time": 7, "harvests/crop": 1, "yield": 1},
 "Summer Spangle": {"grow_time": 8, "harvests/crop": 1, "yield": 1},
@@ -95,9 +102,12 @@ crops_growth_values = {
 "Artichoke": {"grow_time": 8, "harvests/crop": 1, "yield": 1},
 "Beet": {"grow_time": 6, "harvests/crop": 1, "yield": 1},
 "Bok Choy": {"grow_time": 4, "harvests/crop": 1, "yield": 1},
-"Cranberries": {"grow_time": 7, "produce_time": 5, "harvests/crop": 5, "yield": 2},
-"Eggplant": {"grow_time": 5, "produce_time": 5, "harvests/crop": 999, "yield": 1},
-"Grape": {"grow_time": 10, "produce_time": 3, "harvests/crop": 999, "yield": 1},
+"Cranberries": {"grow_time": 7, "produce_time": 5, "harvests/crop": 5, \
+                                                                "yield": 2},
+"Eggplant": {"grow_time": 5, "produce_time": 5, "harvests/crop": 999, \
+                                                                "yield": 1},
+"Grape": {"grow_time": 10, "produce_time": 3, "harvests/crop": 999, \
+                                                                "yield": 1},
 "Pumpkin": {"grow_time": 13, "harvests/crop": 1, "yield": 1},
 "Yam": {"grow_time": 10, "harvests/crop": 1, "yield": 1},
 "Fairy Rose": {"grow_time": 12, "harvests/crop": 1, "yield": 1},
@@ -147,14 +157,14 @@ def main_menu():
 def print_options(array, nummed=1, direction="horiz"):
     """
     Defines a function that takes in options in an array and prints them out
-    # numbered if nummed = 1 or plainly if nummed = 2. dir determines if they're 
-    printed out horizontally or vertically.
+    # numbered if nummed = 1 or plainly if nummed = 2. dir determines if they 
+    are printed out horizontally or vertically.
     """
     to_print = []
     if (nummed):
         for option in range(0 ,len(array)):
-            # if-else statement that prevents options from becoming vertically disaligned due to option numbering 
-            # reaching 2 digits in length.
+            # if-else statement that prevents options from becoming vertically
+            # disaligned due to option numbering reaching 2 digits in length.
             if len(array) >= 9 and direction == "vert" and (option + 1) < 10:
                 to_print.append("{}.  {}".format(option + 1, array[option]))
             else:
@@ -171,7 +181,8 @@ def print_options(array, nummed=1, direction="horiz"):
 
 def set_season():
     """
-    Facilitates the user entering what season it is. Returns the appropriate string.
+    Facilitates the user entering what season it is. Returns the appropriate
+    string.
     """
     error = False
     while True:
@@ -203,7 +214,8 @@ def set_date():
 
         print("What date is it?")
         if error:
-            print("Sorry I didn't understand. Please enter a number between 1 and 28.")
+            print("Sorry I didn't understand. Please enter a number between 1 \
+                and 28.")
             error = False
         else:
             print("")
@@ -217,8 +229,8 @@ def set_date():
 
 def set_budget():
     """
-    Facilitates the user entering the maximum amount of gold they're willing to use. 
-    Returns it as an int.
+    Facilitates the user entering the maximum amount of gold they're willing to
+    use. Returns it as an int.
     """
     error = False
     while True:
@@ -226,7 +238,8 @@ def set_budget():
         print("What's your budget?")
 
         if error:
-            print("Sorry I didn't understand. Please enter a number greater than 0.")
+            print("Sorry I didn't understand. Please enter a number greater \
+                than 0.")
             error = False
         else:
             print("")
@@ -248,7 +261,8 @@ def set_number_seeds():
 
         print("How many seeds do you wish to buy?")
         if error:
-            print("Sorry I didn't understand. Please enter a number greater than 0.")
+            print("Sorry I didn't understand. Please enter a number greater \
+                than 0.")
             error = False
         else:
             print("")
@@ -262,27 +276,33 @@ def set_number_seeds():
 def set_type_seeds(season, date):
     """
     Using the season and date, it faciliates the user making educated choices
-    (due to having the net income/day visibly present) about what seeds they're
-    willing and able to purchase. Returns a list containing the names of those seeds.
+    (due to having the net income/day visibly present) about what seeds they
+    are willing and able to purchase. Returns a list containing the names of
+    those seeds.
     """
     crop_incomes = []
     for crop in season_crops[season]:
         crop_incomes.append((per_day_income(crop, date), crop))
     crop_incomes = sorted(crop_incomes, reverse=True)
 
+    # Iterates through each seed and its NGI/D and formats them in such a way
+    # that the NGI/D is nicely aligned vertically.
     formatted_crop_incomes = []
     for i in range(len(crop_incomes)):
-        formatted_crop_incomes.append("{}{}".format(crop_incomes[i][1] + " " * (15 - len(crop_incomes[i][1])), crop_incomes[i][0]))
+        formatted_crop_incomes.append("{}{}".format(crop_incomes[i][1] + \
+            " " * (15 - len(crop_incomes[i][1])), crop_incomes[i][0]))
 
     desired_seeds = []
     error = False
     while len(formatted_crop_incomes) > 0:
         clear_screen()
-        print("What seeds do you wish to buy? (Highest priority first) (Write 'done' when you're finished choosing)")
+        print("What seeds do you wish to buy? (Highest priority first) (Write \
+            'done' when you're finished choosing)")
         # Prints out the options array in a vertically, numbered fashion
         print_options(formatted_crop_incomes, 1, 'vert')
         if error:
-            print("Sorry I didn't understand. Write the number corresponding to what seeds you want.")
+            print("Sorry I didn't understand. Write the number corresponding \
+                to what seeds you want.")
             error = False
         else:
             print("")
@@ -293,7 +313,8 @@ def set_type_seeds(season, date):
         if p_input == "done":
             break
         elif p_input.isdigit() and 1 <= int(p_input) <= len(crop_incomes):
-            # Pops both crop_incomes and formatted_crop_incomes in order to ensure they match up.
+            # Pops both crop_incomes and formatted_crop_incomes in order to
+            # ensure they match up.
             desired_seeds.append(crop_incomes.pop(int(p_input) - 1)[1])
             formatted_crop_incomes.pop(int(p_input) - 1)
             i += 1
@@ -304,11 +325,12 @@ def set_type_seeds(season, date):
 
 def per_day_income(crop_name, date):
     """
-    Given the name of the crop and the current date, this will return the amount
-    of gold that the crop can produce if harvested until the end of its life
-    span.
+    Given the name of the crop and the current date, this will return the
+    amount of gold that the crop can produce if harvested until the end of its
+    life span.
     """
-    # If-block triggered if the crop is a multi-harvestable crop (e.g. strawberries)
+    # If-block triggered if the crop is a multi-harvestable crop
+    # (e.g. strawberries)
     if crop_name in multiharvest_crops:
         # Number of days left after the crop has fully grown.
         post_growth_days = 28 - date - crops_growth_values[crop_name]\
@@ -326,33 +348,42 @@ def per_day_income(crop_name, date):
         total_days = crops_growth_values[crop_name]["grow_time"] + \
         (most_n_harvests - 1) * crops_growth_values[crop_name]\
                                                         ["produce_time"]
-        income_per_day = (most_n_harvests * crops_store_values[crop_name]["sell"] - crops_store_values[crop_name]["cost"]) / total_days
+        income_per_day = (most_n_harvests * crops_store_values[crop_name]\
+            ["sell"] - crops_store_values[crop_name]["cost"]) / total_days
         return income_per_day
-    # Else-block is triggered if the crop is NOT a multi-harvestable crop (e.g. potatoes)
+    # Else-block is triggered if the crop is NOT a multi-harvestable crop
+    # (e.g. potatoes)
     else:
         # Number of days left in the month after the crop has fully grown.
         post_growth_days = 28 - date
-        # If the plant is repeatadly planted and harvested until the end of the month,
-        # most_n_harvests is the maximum amount of times you'd be able to harvest.
-        most_n_harvests = post_growth_days // crops_growth_values[crop_name]["grow_time"]
-        # Prevents dividing by zero a few lines down. Instead ends function and returns
-        # the amount of money that'd be lost per day until the end of the month if the seed
-        # was purchased.
+        # If the plant is repeatadly planted and harvested until the end of the
+        # month, most_n_harvests is the maximum amount of times you'd be able 
+        # to harvest.
+        most_n_harvests = post_growth_days // crops_growth_values[crop_name]\
+                                                                ["grow_time"]
+        # Prevents dividing by zero a few lines down. Instead ends function and
+        # returns the amount of money that'd be lost per day until the end of
+        # the month if the seed was purchased.
         if most_n_harvests == 0:
-            return -1 * crops_store_values[crop_name]['cost'] / post_growth_days
+            return -1 * crops_store_values[crop_name]['cost'] / \
+                                                            post_growth_days
         # Total days of growing, including time over multiple harvests.
-        total_days = most_n_harvests * crops_growth_values[crop_name]["grow_time"]
-        # For simplicity, the sell price, yield, and cost of the crops are extracted here.
+        total_days = most_n_harvests * crops_growth_values[crop_name]\
+                                                                ["grow_time"]
+        # For simplicity, the sell price, yield, and cost of the crops are
+        # extracted here.
         sell_price = crops_store_values[crop_name]["sell"]
         crop_yield = crops_growth_values[crop_name]["yield"]
         seed_cost = crops_store_values[crop_name]["cost"]
-        income_per_day = (most_n_harvests * sell_price * crop_yield - (most_n_harvests * seed_cost)) / total_days
+        income_per_day = (most_n_harvests * sell_price * crop_yield - \
+                                    (most_n_harvests * seed_cost)) / total_days
         return income_per_day
 
 def determine_purchase(budget, number_seeds, type_seeds):
     """
-    Takes an input budget of gold to be used, the number of seeds to be bought, and the types of seeds to be bought.
-    Prints how much of each seed that should be purchased.
+    Takes an input budget of gold to be used, the number of seeds to be bought,
+    and the types of seeds to be bought. Prints how much of each seed that
+    should be purchased.
     """
     clear_screen()
 
@@ -370,11 +401,13 @@ def determine_purchase(budget, number_seeds, type_seeds):
     money = budget
     i = 0
     # While there's more money than the cheapest seed is worth (i.e. can still
-    # purchase more seeds.) and there's still more room for seeds, do the following.
+    # purchase more seeds.) and there's still more room for seeds, do the
+    # following...
     while money >= min(seed_prices) and number_seeds > 0:
-        # The max number of this type of seed that can be bought with the current
-        # money remaining.
-        max_seeds = money // crops_store_values[type_seeds[i]]['cost']        # Number of seeds left to buy is reduced as seeds are bought.
+        # The max number of this type of seed that can be bought with the
+        # current money remaining.
+        max_seeds = money // crops_store_values[type_seeds[i]]['cost']
+        # Number of seeds left to buy is reduced as seeds are bought.
         number_seeds -= max_seeds
         # Ensures that more seeds than specified are not being bought.
         if number_seeds < 0:

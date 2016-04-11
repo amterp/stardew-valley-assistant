@@ -1,6 +1,12 @@
 # stardew-valley-assistant
+# csv-addition
 
 By: Terpal47
+
+Branch Description:
+
+Splitting the data into seperate .csv files as suggsted on reddit here: 
+https://www.reddit.com/r/StardewValley/comments/4e5i9l/i_wrote_a_program_that_assists_in_seedpurchasing/d1xpyab
 
 Description:
 
