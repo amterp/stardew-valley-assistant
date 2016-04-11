@@ -7,7 +7,7 @@
 #               number and types of seeds in the video game Stardew Valley, and returns the optimal
 #               types and amounts of seeds to purchase.
 #---------------------------------------------------------------------------------------------------
-from os import system
+import os
 
 # Define several dictionaries and lists to be used globally.
 season_crops = {
@@ -105,13 +105,21 @@ crops_growth_values = {
 "Sunflower": {"grow_time": 8, "harvests/crop": 1, "yield": 1}
 }
 
+def clear_screen():
+    """
+    Clears the window
+    """
+    # More cross-platform http://stackoverflow.com/a/684344/780194
+    os.system('cls' if os.name=='nt' else 'clear')
+
+
 def main_menu():
     """
     Brings up the main menu and its choices.
     """
     error = False
     while True:
-        system('cls')   # Clears the window
+        clear_screen()
         options = ["Assist purchase", "Exit"]
         print("What can I do for you?")
         # Prints out the options array in a numbered fashion
@@ -165,7 +173,7 @@ def set_season():
     """
     error = False
     while True:
-        system('cls')   # Clears the window
+        clear_screen()
         options = ["Spring", "Summer", "Fall"]
         print("What season is it?")
         # Prints out the options array in a numbered fashion
@@ -187,7 +195,7 @@ def set_date():
     """
     error = False
     while True:
-        system('cls')    # Clears the window
+        clear_screen()
         print("What date is it?")
         if error:
             print("Sorry I didn't understand. Please enter a number between 1 and 28.")
@@ -208,7 +216,7 @@ def set_budget():
     """
     error = False
     while True:
-        system('cls') # Clears the window
+        clear_screen()
         print("What's your budget?")
         if error:
             print("Sorry I didn't understand. Please enter a number greater than 0.")
@@ -228,7 +236,7 @@ def set_number_seeds():
     """
     error = False
     while True:
-        system('cls') # Clears the window
+        clear_screen()
         print("How many seeds do you wish to buy?")
         if error:
             print("Sorry I didn't understand. Please enter a number greater than 0.")
@@ -257,7 +265,7 @@ def set_type_seeds(season, date):
     desired_seeds = []
     error = False
     while len(formatted_crop_incomes) > 0:
-        system('cls')   # Clears the window
+        clear_screen()
         print("What seeds do you wish to buy? (Highest priority first) (Write 'done' when you're finished choosing)")
         # Prints out the options array in a vertically, numbered fashion
         print_options(formatted_crop_incomes, 1, 'vert')
@@ -332,7 +340,7 @@ def determine_purchase(budget, number_seeds, type_seeds):
     Takes an input budget of gold to be used, the number of seeds to be bought, and the types of seeds to be bought.
     Prints how much of each seed that should be purchased.
     """
-    system('cls')
+    clear_screen()
     # List containing all the prices of each type of crop in the type_seeds
     # list. Used later to find the cheapest seed in the list.
     seed_prices = []
@@ -365,7 +373,7 @@ def determine_purchase(budget, number_seeds, type_seeds):
 
     error = False
     while True:
-        system('cls')
+        clear_screen()
         # Prints out a sentence for every seed specifying how many you should buy and of 
         # which type.
         for i in range(len(seeds_to_purchase)):
