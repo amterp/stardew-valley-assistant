@@ -1,0 +1,36 @@
+# 'cost' is the price of buying a seed.
+# 'sell' is the price at which each part of the yield can be sold at.
+# crop name, buy price, sell price
+Cauliflower,80,175
+Garlic,40,60
+Green Bean,60,40
+Kale,70,110
+Parsnip,20,35
+Potato,50,80
+Rhubarb,100,220
+Strawberry,100,120
+Blue Jazz,30,50
+Tulip,20,30
+Blueberry,80,80
+Corn,150,50
+Hops,60,25
+Hot Pepper,40,40
+Melon,80,250
+Radish,40,90
+Red Cabbage,100,260
+Starfruit,400,800
+Tomato,50,60
+Wheat,10,25
+Poppy,100,140
+Summer Spangle,50,90
+Amaranth,70,150
+Artichoke,30,160
+Beet,20,100
+Bok Choy,50,80
+Cranberries,240,130
+Eggplant,20,60
+Grape,60,80
+Pumpkin,100,320
+Yam,60,160
+Fairy Rose,200,290
+Sunflower,50,80
