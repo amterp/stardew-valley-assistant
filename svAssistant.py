@@ -120,6 +120,7 @@ def main_menu():
     error = False
     while True:
         clear_screen()
+
         options = ["Assist purchase", "Exit"]
         print("What can I do for you?")
         # Prints out the options array in a numbered fashion
@@ -128,6 +129,7 @@ def main_menu():
             print("Sorry I don't understand. Please enter either 1 or 2.")
         else:
             print("")
+
         p_input = input()
         if p_input == "1":
             season       = set_season()
@@ -161,6 +163,7 @@ def print_options(array, nummed=1, direction="horiz"):
     else:
         for option in range(0 ,len(array)):
             to_print.append(array[option])
+
     if direction == "horiz":
         print('     '.join(to_print))
     elif direction == "vert":
@@ -174,6 +177,7 @@ def set_season():
     error = False
     while True:
         clear_screen()
+
         options = ["Spring", "Summer", "Fall"]
         print("What season is it?")
         # Prints out the options array in a numbered fashion
@@ -183,6 +187,7 @@ def set_season():
             error = False
         else:
             print("")
+
         p_input = input()
         if p_input.isdigit() and 1 <= int(p_input) <= 3:
             return options[int(p_input) - 1].lower()
@@ -196,12 +201,14 @@ def set_date():
     error = False
     while True:
         clear_screen()
+
         print("What date is it?")
         if error:
             print("Sorry I didn't understand. Please enter a number between 1 and 28.")
             error = False
         else:
             print("")
+
         # Prints out the options array in a numbered fashion
         p_input = input()
         if p_input.isdigit() and 1 <= int(p_input) <= 28:
@@ -218,11 +225,13 @@ def set_budget():
     while True:
         clear_screen()
         print("What's your budget?")
+
         if error:
             print("Sorry I didn't understand. Please enter a number greater than 0.")
             error = False
         else:
             print("")
+
         p_input = input()
         if p_input.isdigit() and int(p_input) > 0:
             return int(p_input)
@@ -237,12 +246,14 @@ def set_number_seeds():
     error = False
     while True:
         clear_screen()
+
         print("How many seeds do you wish to buy?")
         if error:
             print("Sorry I didn't understand. Please enter a number greater than 0.")
             error = False
         else:
             print("")
+
         p_input = input()
         if p_input.isdigit() and int(p_input) > 0:
             return int(p_input)
@@ -259,9 +270,11 @@ def set_type_seeds(season, date):
     for crop in season_crops[season]:
         crop_incomes.append((per_day_income(crop, date), crop))
     crop_incomes = sorted(crop_incomes, reverse=True)
+
     formatted_crop_incomes = []
     for i in range(len(crop_incomes)):
         formatted_crop_incomes.append("{}{}".format(crop_incomes[i][1] + " " * (15 - len(crop_incomes[i][1])), crop_incomes[i][0]))
+
     desired_seeds = []
     error = False
     while len(formatted_crop_incomes) > 0:
@@ -276,6 +289,7 @@ def set_type_seeds(season, date):
             print("")
         print(desired_seeds)
         print("")
+
         p_input = input()
         if p_input == "done":
             break
@@ -286,6 +300,7 @@ def set_type_seeds(season, date):
             i += 1
         else:
             error = True
+
     return desired_seeds
 
 def per_day_income(crop_name, date):
@@ -341,11 +356,13 @@ def determine_purchase(budget, number_seeds, type_seeds):
     Prints how much of each seed that should be purchased.
     """
     clear_screen()
+
     # List containing all the prices of each type of crop in the type_seeds
     # list. Used later to find the cheapest seed in the list.
     seed_prices = []
     for seed in type_seeds:
         seed_prices.append(crops_store_values[seed]['cost'])
+
     # List containing how many of each seed type that should be purchased. By
     # matching indexes, those numbers can be associated with the seed types.
     seeds_to_purchase = []
