@@ -270,7 +270,7 @@ def set_type_seeds(season, date):
         # Prints out the options array in a vertically, numbered fashion
         print_options(formatted_crop_incomes, 1, 'vert')
         if error:
-            print("Sorry I didn't understand. Write the number corresponding to what season it is.")
+            print("Sorry I didn't understand. Write the number corresponding to what seeds you want.")
             error = False
         else:
             print("")
@@ -279,7 +279,7 @@ def set_type_seeds(season, date):
         p_input = input()
         if p_input == "done":
             break
-        elif p_input.isdigit() and 1 <= int(p_input) <= (len(crop_incomes) - 1):
+        elif p_input.isdigit() and 1 <= int(p_input) <= len(crop_incomes):
             # Pops both crop_incomes and formatted_crop_incomes in order to ensure they match up.
             desired_seeds.append(crop_incomes.pop(int(p_input) - 1)[1])
             formatted_crop_incomes.pop(int(p_input) - 1)
