@@ -1,0 +1,6 @@
+# Ignore optimized python files
+*.pyc
+
+# Ignore editor tmp files
+*.swp
+*~
