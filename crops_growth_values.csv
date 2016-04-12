@@ -1,10 +1,10 @@
+crop_name,growth_time,produce_time,harvests_per_crop,yield
 # 'grow_time' is the number of days it takes for the crop to completely grow.
 # 'produce_time' is the number of days it takes to reproduce yield post-growth.
-# 'harvests/crop' is the number of times the crop can be harvested per season.
+# 'harvests_per_crop' is the number of times the crop can be harvested per season.
 # '999' for 'harvests/crop' means infinite.
 # 'yield' is the number of crops you recieve per harvest.
 
-# Name, growth time, produce time, harvests/crop, yield
 # Multiharvest crops
 Green Bean,10,3,999,1
 Strawberry,8,4,999,1
