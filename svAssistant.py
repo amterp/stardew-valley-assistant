@@ -154,8 +154,7 @@ def set_date():
 
         print("What date is it?")
         if error:
-            print("Sorry I didn't understand. Please enter a number between "\
-                "and 28.")
+            print("Sorry I didn't understand. Please enter a number between 1 and 28.")
             error = False
         else:
             print("")
@@ -178,8 +177,7 @@ def set_budget():
         print("What's your budget?")
 
         if error:
-            print("Sorry I didn't understand. Please enter a number greater "\
-                "than 0.")
+            print("Sorry I didn't understand. Please enter a number greater than 0.")
             error = False
         else:
             print("")
@@ -201,8 +199,7 @@ def set_number_seeds():
 
         print("How many seeds do you wish to buy?")
         if error:
-            print("Sorry I didn't understand. Please enter a number greater "\
-                "than 0.")
+            print("Sorry I didn't understand. Please enter a number greater than 0.")
             error = False
         else:
             print("")
@@ -229,19 +226,19 @@ def set_type_seeds(season, date):
     # that the NGI/D is nicely aligned vertically.
     formatted_crop_incomes = []
     for i in range(len(crop_incomes)):
-        formatted_crop_incomes.append("{}{}".format(crop_incomes[i][1] + \
+        formatted_crop_incomes.append("{}{}".format(crop_incomes[i][1] +
             " " * (15 - len(crop_incomes[i][1])), crop_incomes[i][0]))
 
     desired_seeds = []
     error = False
     while len(formatted_crop_incomes) > 0:
         clear_screen()
-        print("What seeds do you wish to buy? (Highest priority first) "\
+        print("What seeds do you wish to buy? (Highest priority first) "
             "(Write 'done' when you're finished choosing)")
         # Prints out the options array in a vertically, numbered fashion
         print_options(formatted_crop_incomes, 1, 'vert')
         if error:
-            print("Sorry I didn't understand. Write the number corresponding "\
+            print("Sorry I didn't understand. Write the number corresponding "
                 "to what seeds you want.")
             error = False
         else:
@@ -269,27 +266,28 @@ def per_day_income(crop_name, date):
     amount of gold that the crop can produce if harvested until the end of its
     life span.
     """
+    # Grab references to crop info
+    crop_growth = crops_growth_values[crop_name]
+    crop_values = crops_store_values[crop_name]
+
     # If-block triggered if the crop is a multi-harvestable crop
     # (e.g. strawberries)
     if crop_name in multiharvest_crops:
+
         # Number of days left after the crop has fully grown.
-        post_growth_days = 28 - date - crops_growth_values[crop_name]\
-                                                            ["grow_time"]
+        post_growth_days = 28 - date - crop_growth["grow_time"]
         # Possible number of harvests that can be done before the crop dies.
-        most_n_harvests = 1 + post_growth_days // \
-                                crops_growth_values[crop_name]["produce_time"]
+        most_n_harvests = 1 + post_growth_days // crop_growth["produce_time"]
         # Changes 'most_n_harvests' if it conflicts with the max number of
         # times that it can physically be harvested.
-        if most_n_harvests > crops_growth_values[crop_name]\
-                                                    ["harvests_per_crop"]:
-            most_n_harvests = crops_growth_values[crop_name]["harvests_per_crop"]
+        if most_n_harvests > crop_growth["harvests_per_crop"]:
+            most_n_harvests = crop_growth["harvests_per_crop"]
         # Total number of days from when it's planted until it's last day of
         # possible harvest.
-        total_days = crops_growth_values[crop_name]["grow_time"] + \
-        (most_n_harvests - 1) * crops_growth_values[crop_name]\
-                                                        ["produce_time"]
-        income_per_day = (most_n_harvests * crops_store_values[crop_name]\
-            ["sell_price"] - crops_store_values[crop_name]["buy_price"]) / total_days
+        total_days = crop_growth["grow_time"] + (most_n_harvests - 1) * crop_growth["produce_time"]
+        income_per_day = (most_n_harvests * crop_values["sell_price"] - 
+                crop_values["buy_price"]) / total_days
+
         return income_per_day
     # Else-block is triggered if the crop is NOT a multi-harvestable crop
     # (e.g. potatoes)
@@ -299,23 +297,20 @@ def per_day_income(crop_name, date):
         # If the plant is repeatadly planted and harvested until the end of the
         # month, most_n_harvests is the maximum amount of times you'd be able 
         # to harvest.
-        most_n_harvests = post_growth_days // crops_growth_values[crop_name]\
-                                                                ["grow_time"]
+        most_n_harvests = post_growth_days // crop_growth["grow_time"]
         # Prevents dividing by zero a few lines down. Instead ends function and
         # returns the amount of gold that'd be lost per day until the end of
         # the month if the seed was purchased.
         if most_n_harvests == 0:
-            return -1 * crops_store_values[crop_name]["buy_price"] / \
-                                                            post_growth_days
+            return -1 * crop_values["buy_price"] / post_growth_days
         # Total days of growing, including time over multiple harvests.
-        total_days = most_n_harvests * crops_growth_values[crop_name]\
-                                                                ["grow_time"]
+        total_days = most_n_harvests * crop_growth["grow_time"]
         # For simplicity, the sell price, yield, and cost of the crops are
         # extracted here.
-        sell_price = crops_store_values[crop_name]["sell_price"]
-        crop_yield = crops_growth_values[crop_name]["yield"]
-        seed_cost = crops_store_values[crop_name]["buy_price"]
-        income_per_day = (most_n_harvests * sell_price * crop_yield - \
+        sell_price = crop_values["sell_price"]
+        crop_yield = crop_growth["yield"]
+        seed_cost = crop_values["buy_price"]
+        income_per_day = (most_n_harvests * sell_price * crop_yield -
                                     (most_n_harvests * seed_cost)) / total_days
         return income_per_day
 
