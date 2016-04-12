@@ -4,8 +4,8 @@
 # '999' for 'harvests/crop' means infinite.
 # 'yield' is the number of crops you recieve per harvest.
 
-# Multiharvest crops
 # Name, growth time, produce time, harvests/crop, yield
+# Multiharvest crops
 Green Bean,10,3,999,1
 Strawberry,8,4,999,1
 Blueberry,13,4,999,3
@@ -16,29 +16,27 @@ Tomato,11,4,5,1
 Cranberries,7,5,5,2
 Eggplant,5,5,999,1
 Grape,10,3,999,1
-
 # 'Conventional' crops
-# Name,growth time,harvests/crop,yield
-Cauliflower,12,1,1
-Garlic,4,1,1
-Kale,6,1,1
-Parsnip,4,1,1
-Potato,6,1,1.25
-Rhubarb,13,1,1
-Blue Jazz,7,1,1
-Tulip,6,1,1
-Melon,12,1,1
-Radish,6,1,1
-Red Cabbage,9,1,1
-Starfruit,13,1,1
-Wheat,4,1,1
-Poppy,7,1,1
-Summer Spangle,8,1,1
-Amaranth,7,3,1
-Artichoke,8,1,1
-Beet,6,1,1
-Bok Choy,4,1,1
-Pumpkin,13,1,1
-Yam,10,1,1
-Fairy Rose,12,1,1
-Sunflower,8,1,1
+Cauliflower,12,0,1,1
+Garlic,4,0,1,1
+Kale,6,0,1,1
+Parsnip,4,0,1,1
+Potato,6,0,1,1.25
+Rhubarb,13,0,1,1
+Blue Jazz,7,0,1,1
+Tulip,6,0,1,1
+Melon,12,0,1,1
+Radish,6,0,1,1
+Red Cabbage,9,0,1,1
+Starfruit,13,0,1,1
+Wheat,4,0,1,1
+Poppy,7,0,1,1
+Summer Spangle,8,0,1,1
+Amaranth,7,0,3,1
+Artichoke,8,0,1,1
+Beet,6,0,1,1
+Bok Choy,4,0,1,1
+Pumpkin,13,0,1,1
+Yam,10,0,1,1
+Fairy Rose,12,0,1,1
+Sunflower,8,0,1,1

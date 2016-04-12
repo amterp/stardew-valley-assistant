@@ -37,8 +37,10 @@ with open('crops_store_values.csv') as crop_values:
         if len(row) == 0 or row[0][0] == "#":
             continue
         else:
-            crops_store_values[row[0]] = {"buy": float(row[1]), 'sell': \
-                                                                float(row[2])}
+            crops_store_values[row[0]] = {
+                    "buy": float(row[1]), 
+                    "sell": float(row[2])
+                    }
 
 # Creates a dictionary containing the grow_time, produce time (if applicable),
 # harvests per crop, and yield of each crop. Retrieves the values from 
@@ -52,13 +54,13 @@ with open('crops_growth_values.csv') as crop_growth:
         # for commenting on the .csv file)
         if len(row) == 0 or row[0][0] == "#":
             continue
-        elif row[0] in multiharvest_crops:
-            crops_growth_values[row[0]] = {"grow_time": float(row[1]), \
-            'produce_time': float(row[2]), "harvests/crop": float(row[3]), \
-                                                        "yield": float(row[4])}
         else:
-            crops_growth_values[row[0]] = {"grow_time": float(row[1]), \
-                        "harvests/crop": float(row[2]), "yield": float(row[3])}
+            crops_growth_values[row[0]] = {
+                    "grow_time": float(row[1]),
+                    'produce_time': float(row[2]), 
+                    "harvests/crop": float(row[3]),
+                    "yield": float(row[4])
+                    }
 
 def clear_screen():
     """
