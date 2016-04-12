@@ -1,11 +1,11 @@
 crop_name,growth_time,produce_time,harvests_per_crop,yield
-# 'grow_time' is the number of days it takes for the crop to completely grow.
-# 'produce_time' is the number of days it takes to reproduce yield post-growth.
-# 'harvests_per_crop' is the number of times the crop can be harvested per season.
-# '999' for 'harvests/crop' means infinite.
-# 'yield' is the number of crops you recieve per harvest.
+# 'grow_time' is the number of days it takes for the crop to completely grow.,,,,
+# 'produce_time' is the number of days it takes to reproduce yield post-growth.,,,,
+# 'harvests_per_crop' is the number of times the crop can be harvested per season.,,,,
+# '999' for 'harvests/crop' means infinite.,,,,
+# 'yield' is the number of crops you recieve per harvest.,,,,
 
-# Multiharvest crops
+# Multiharvest crops,,,,
 Green Bean,10,3,999,1
 Strawberry,8,4,999,1
 Blueberry,13,4,999,3
@@ -16,7 +16,7 @@ Tomato,11,4,5,1
 Cranberries,7,5,5,2
 Eggplant,5,5,999,1
 Grape,10,3,999,1
-# 'Conventional' crops
+# 'Conventional' crops,,,,
 Cauliflower,12,0,1,1
 Garlic,4,0,1,1
 Kale,6,0,1,1
