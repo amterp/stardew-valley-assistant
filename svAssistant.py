@@ -278,17 +278,25 @@ def per_day_income(crop_name, date):
         # Number of days left after the crop has fully grown.
         post_growth_days = 28 - date - crop_growth["grow_time"]
         # Possible number of harvests that can be done before the crop dies.
+        # Starts with +1 because of the initial harvest when growth_time is done.
         most_n_harvests = 1 + post_growth_days // crop_growth["produce_time"]
         # Changes 'most_n_harvests' if it conflicts with the max number of
-        # times that it can physically be harvested.
+        # times that it can physically be harvested. If it has a negative value,
+        # change it to the more sensible value of 0.
         if most_n_harvests > crop_growth["harvests_per_crop"]:
             most_n_harvests = crop_growth["harvests_per_crop"]
+        elif most_n_harvests < 0:
+            most_n_harvests = 0
         # Total number of days from when it's planted until it's last day of
         # possible harvest.
-        total_days = crop_growth["grow_time"] + (most_n_harvests - 1) * crop_growth["produce_time"]
+        if most_n_harvests == 0:
+            total_days = crop_growth["grow_time"]
+        else:
+            total_days = crop_growth["grow_time"] + (most_n_harvests - 1) * crop_growth["produce_time"]
+        # To prevent ZeroDivisionErrors as well as false income_per_day values,
+        # if total_days is 0 or less, just set income_per_day to 0.
         income_per_day = (most_n_harvests * crop_values["sell_price"] - 
                 crop_values["buy_price"]) / total_days
-
         return income_per_day
     # Else-block is triggered if the crop is NOT a multi-harvestable crop
     # (e.g. potatoes)
@@ -360,10 +368,17 @@ def determine_purchase(budget, number_seeds, type_seeds):
     while True:
         clear_screen()
         # Prints out a sentence for every seed specifying how many you should 
-        # buy and of which type.
+        # buy and of which type. Skips any sentence that says to buy 0 seeds.
         for i in range(len(seeds_to_purchase)):
+            if seeds_to_purchase[i] == 0:
+                continue
             print("You should purchase {} {} seeds.".format(
                 int(seeds_to_purchase[i]), type_seeds[i]))
+        # If the sum of seeds_to_purchase equals, it must mean that the user
+        # has not been told to buy any seeds in the for loop above. Thus, 
+        # a sentence telling them not to buy any seeds is printed.
+        if sum(seeds_to_purchase) == 0:
+            print("You should not buy any seeds.")
         print("")
         print("What would you like to do now?")
         options = ["Return to main menu", "Exit"]
