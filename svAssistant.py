@@ -12,19 +12,19 @@ import csv
 
 # Define several dictionaries and lists to be used globally.
 season_crops = {
-"spring": ["Cauliflower", "Garlic", "Green Bean", "Kale", "Parsnip", \
+"spring": ["Cauliflower", "Garlic", "Green Bean", "Kale", "Parsnip", 
 "Potato", "Rhubarb", "Strawberry", "Blue Jazz", "Tulip"],
 
-"summer": ["Blueberry", "Corn", "Hops", "Hot Pepper", "Melon", \
-"Radish", "Red Cabbage", "Starfruit", "Tomato", "Wheat", "Poppy", \
+"summer": ["Blueberry", "Corn", "Hops", "Hot Pepper", "Melon", 
+"Radish", "Red Cabbage", "Starfruit", "Tomato", "Wheat", "Poppy", 
 "Summer Spangle"],
 
-"fall": ["Amaranth", "Artichoke", "Beet", "Bok Choy", "Cranberries", \
+"fall": ["Amaranth", "Artichoke", "Beet", "Bok Choy", "Cranberries",
 "Corn", "Eggplant", "Grape", "Pumpkin", "Yam", "Fairy Rose", "Sunflower"]
 }
 
 # A list containing all the names of multi-harvestable crops.
-multiharvest_crops = ["Green Bean", "Strawberry", "Blueberry", "Corn", \
+multiharvest_crops = ["Green Bean", "Strawberry", "Blueberry", "Corn", 
 "Hops", "Hot Pepper", "Tomato", "Cranberries", "Eggplant", "Grape"]
 
 # Creates a dictionary containing the buy and sell price of crops. Retrieves
@@ -102,15 +102,16 @@ def print_options(array, nummed=1, direction="horiz"):
     """
     to_print = []
     if (nummed):
-        for option in range(0 ,len(array)):
+        for option in range(len(array)):
             # if-else statement that prevents options from becoming vertically
-            # disaligned due to option numbering reaching 2 digits in length.
-            if len(array) >= 9 and direction == "vert" and (option + 1) < 10:
-                to_print.append("{}.  {}".format(option + 1, array[option]))
+            # disaligned due to option numbering reaching n digits in length.
+            if direction == "vert":
+                to_print.append("{0:{space}}. {1}".format(option + 1, 
+                    array[option], space=len(str(len(array)))))
             else:
                 to_print.append("{}. {}".format(option + 1, array[option]))
     else:
-        for option in range(0 ,len(array)):
+        for option in range(len(array)):
             to_print.append(array[option])
 
     if direction == "horiz":
@@ -361,8 +362,8 @@ def determine_purchase(budget, number_seeds, type_seeds):
         # Prints out a sentence for every seed specifying how many you should 
         # buy and of which type.
         for i in range(len(seeds_to_purchase)):
-            print("You should purchase {} {} seeds.".format(\
-                                    int(seeds_to_purchase[i]), type_seeds[i]))
+            print("You should purchase {} {} seeds.".format(
+                int(seeds_to_purchase[i]), type_seeds[i]))
         print("")
         print("What would you like to do now?")
         options = ["Return to main menu", "Exit"]
