@@ -61,6 +61,12 @@ def clear_screen():
     # More cross-platform http://stackoverflow.com/a/684344/780194
     os.system("cls" if os.name=="nt" else "clear")
 
+def most_seeds_buy(budget, remaining_seeds, seed_name):
+    max_to_buy = budget // crops_store_values[seed_name]['buy_price']
+    if max_to_buy > remaining_seeds:
+        max_to_buy = remaining_seeds
+    budget -= max_to_buy * crops_store_values[seed_name]['buy_price']
+    return (max_to_buy, budget)
 
 def main_menu():
     """
@@ -85,7 +91,7 @@ def main_menu():
             date         = set_date()
             budget       = set_budget()
             number_seeds = set_number_seeds()
-            type_seeds   = set_type_seeds(season, date)
+            type_seeds   = set_type_seeds(season, date, budget, number_seeds)
             determine_purchase(budget, number_seeds, type_seeds)
             break
         elif p_input == "2":
@@ -211,29 +217,41 @@ def set_number_seeds():
         else:
             error = True
 
-def set_type_seeds(season, date):
+def set_type_seeds(season, date, budget, number_seeds):
     """
-    Using the season and date, it faciliates the user making educated choices
-    (due to having the net income/day visibly present) about what seeds they
-    are willing and able to purchase. Returns a list containing the names of
-    those seeds.
+    Using the given arguments,  it faciliates the user making educated
+    choices (due to having the net income/day visibly present) about what seeds 
+    they are willing and able to purchase. Returns a list containing the names 
+    of those seeds.
     """
-    crop_incomes = []
-    for crop in season_crops[season]:
-        crop_incomes.append((per_day_income(crop, date), crop))
-    crop_incomes = sorted(crop_incomes, reverse=True)
 
-    # Iterates through each seed and its NGI/D and formats them in such a way
-    # that the NGI/D is nicely aligned vertically.
-    formatted_crop_incomes = []
-    for i in range(len(crop_incomes)):
-        formatted_crop_incomes.append("{}{}".format(crop_incomes[i][1] +
-            " " * (15 - len(crop_incomes[i][1])), crop_incomes[i][0]))
+    def update_choices(init=0, crop_names=[]):
+        crop_incomes = []
+        if init:
+            for crop in season_crops[season]:
+                crop_incomes.append((per_day_income(crop, date, budget, number_seeds), crop))
+            crop_incomes = sorted(crop_incomes, reverse=True)
+        else:
+            for crop in crop_names:
+                crop_incomes.append((per_day_income(crop, date, budget, number_seeds), crop))
+            crop_incomes = sorted(crop_incomes, reverse=True)
+        # Iterates through each seed and its NGI/D and formats them in such a way
+        # that the NGI/D is nicely aligned vertically.
+        formatted_crop_incomes = []
+        for i in range(len(crop_incomes)):
+            formatted_crop_incomes.append("{}{}".format(crop_incomes[i][1] +
+                " " * (15 - len(crop_incomes[i][1])), crop_incomes[i][0]))
+        return (crop_incomes, formatted_crop_incomes)
 
+    crop_incomes = update_choices(1)[0]
+    formatted_crop_incomes = update_choices(1)[1]
     desired_seeds = []
     error = False
+    i = 0
     while len(formatted_crop_incomes) > 0:
         clear_screen()
+        crop_incomes = update_choices(0, [tupl[1] for tupl in crop_incomes])[0]
+        formatted_crop_incomes = update_choices(0, [tupl[1] for tupl in crop_incomes])[1]
         print("What seeds do you wish to buy? (Highest priority first) "
             "(Write 'done' when you're finished choosing)")
         # Prints out the options array in a vertically, numbered fashion
@@ -253,15 +271,17 @@ def set_type_seeds(season, date):
         elif p_input.isdigit() and 1 <= int(p_input) <= len(crop_incomes):
             # Pops both crop_incomes and formatted_crop_incomes in order to
             # ensure they match up.
-            desired_seeds.append(crop_incomes.pop(int(p_input) - 1)[1])
+            tupl_choice = crop_incomes.pop(int(p_input) - 1)
             formatted_crop_incomes.pop(int(p_input) - 1)
+            number_seeds -= most_seeds_buy(budget, number_seeds, tupl_choice[1])[0]
+            desired_seeds.append(tupl_choice[1])
             i += 1
         else:
             error = True
 
     return desired_seeds
 
-def per_day_income(crop_name, date):
+def per_day_income(crop_name, date, budget, number_seeds):
     """
     Given the name of the crop and the current date, this will return the
     amount of gold that the crop can produce if harvested until the end of its
@@ -274,7 +294,6 @@ def per_day_income(crop_name, date):
     # If-block triggered if the crop is a multi-harvestable crop
     # (e.g. strawberries)
     if crop_name in multiharvest_crops:
-
         # Number of days left after the crop has fully grown.
         post_growth_days = 28 - date - crop_growth["grow_time"]
         # Possible number of harvests that can be done before the crop dies.
@@ -301,27 +320,22 @@ def per_day_income(crop_name, date):
     # Else-block is triggered if the crop is NOT a multi-harvestable crop
     # (e.g. potatoes)
     else:
-        # Number of days left in the month after the crop has fully grown.
-        post_growth_days = 28 - date
-        # If the plant is repeatadly planted and harvested until the end of the
-        # month, most_n_harvests is the maximum amount of times you'd be able 
-        # to harvest.
-        most_n_harvests = post_growth_days // crop_growth["grow_time"]
-        # Prevents dividing by zero a few lines down. Instead ends function and
-        # returns the amount of gold that'd be lost per day until the end of
-        # the month if the seed was purchased.
-        if most_n_harvests == 0:
-            return -1 * crop_values["buy_price"] / post_growth_days
-        # Total days of growing, including time over multiple harvests.
-        total_days = most_n_harvests * crop_growth["grow_time"]
         # For simplicity, the sell price, yield, and cost of the crops are
         # extracted here.
         sell_price = crop_values["sell_price"]
         crop_yield = crop_growth["yield"]
         seed_cost = crop_values["buy_price"]
-        income_per_day = (most_n_harvests * sell_price * crop_yield -
-                                    (most_n_harvests * seed_cost)) / total_days
-        return income_per_day
+        # Checks to see if there's enough time for the crop to grow and pay off.
+        # If not, a negative value is stored in income_per_day.
+        if crop_growth["grow_time"] < 28 - date:
+            income_per_day = ((sell_price * crop_yield - seed_cost) / 
+                crop_growth["grow_time"])
+        else:
+            income_per_day = seed_cost / crop_growth["grow_time"]
+
+    max_seeds_buy = most_seeds_buy(budget, number_seeds, crop_name)[0]
+    total_NGI_D = income_per_day * max_seeds_buy
+    return total_NGI_D
 
 def determine_purchase(budget, number_seeds, type_seeds):
     """
@@ -329,14 +343,12 @@ def determine_purchase(budget, number_seeds, type_seeds):
     and the types of seeds to be bought. Prints how much of each seed that
     should be purchased.
     """
-    clear_screen()
-
     # List containing all the prices of each type of crop in the type_seeds
     # list. Used later to find the cheapest seed in the list.
     seed_prices = []
+    print(type_seeds)
     for seed in type_seeds:
         seed_prices.append(crops_store_values[seed]["buy_price"])
-
     # List containing how many of each seed type that should be purchased. By
     # matching indexes, those numbers can be associated with the seed types.
     seeds_to_purchase = []
@@ -348,17 +360,9 @@ def determine_purchase(budget, number_seeds, type_seeds):
     # purchase more seeds.) and there's still more room for seeds, do the
     # following...
     while gold >= min(seed_prices) and number_seeds > 0:
-        # The max number of this type of seed that can be bought with the
-        # current gold remaining.
-        max_seeds = gold // crops_store_values[type_seeds[i]]["buy_price"]
-        # Number of seeds left to buy is reduced as seeds are bought.
-        number_seeds -= max_seeds
-        # Ensures that more seeds than specified are not being bought.
-        if number_seeds < 0:
-            max_seeds += number_seeds
-        # Calculates remaining gold after purchase of above number of seeds.
-        gold -= max_seeds * crops_store_values[type_seeds[i]]["buy_price"]
-        seeds_to_purchase.append(max_seeds)
+        seeds_to_purchase.append(most_seeds_buy(gold, number_seeds, type_seeds[i])[0])
+        gold = most_seeds_buy(gold, number_seeds, type_seeds[i])[1]
+        number_seeds -= seeds_to_purchase[-1]
         # If the specified number of seeds to buy is met, stop buying more.
         if number_seeds == 0:
             break

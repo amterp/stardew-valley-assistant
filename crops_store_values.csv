@@ -1,6 +1,6 @@
 crop_name,buy_price,sell_price
-# 'buy' is the price of buying a seed.,,,,
-# 'sell' is the price at which each part of the yield can be sold at.,,,,
+# 'buy' is the price of buying a seed.,,
+# 'sell' is the price at which each part of the yield can be sold at.,,
 Cauliflower,80,175
 Garlic,40,60
 Green Bean,60,40
