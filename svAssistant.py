@@ -12,19 +12,19 @@ import csv
 
 # Define several dictionaries and lists to be used globally.
 season_crops = {
-"spring": ["Cauliflower", "Garlic", "Green Bean", "Kale", "Parsnip", \
+"spring": ["Cauliflower", "Garlic", "Green Bean", "Kale", "Parsnip", 
 "Potato", "Rhubarb", "Strawberry", "Blue Jazz", "Tulip"],
 
-"summer": ["Blueberry", "Corn", "Hops", "Hot Pepper", "Melon", \
-"Radish", "Red Cabbage", "Starfruit", "Tomato", "Wheat", "Poppy", \
+"summer": ["Blueberry", "Corn", "Hops", "Hot Pepper", "Melon", 
+"Radish", "Red Cabbage", "Starfruit", "Tomato", "Wheat", "Poppy", 
 "Summer Spangle"],
 
-"fall": ["Amaranth", "Artichoke", "Beet", "Bok Choy", "Cranberries", \
+"fall": ["Amaranth", "Artichoke", "Beet", "Bok Choy", "Cranberries",
 "Corn", "Eggplant", "Grape", "Pumpkin", "Yam", "Fairy Rose", "Sunflower"]
 }
 
 # A list containing all the names of multi-harvestable crops.
-multiharvest_crops = ["Green Bean", "Strawberry", "Blueberry", "Corn", \
+multiharvest_crops = ["Green Bean", "Strawberry", "Blueberry", "Corn", 
 "Hops", "Hot Pepper", "Tomato", "Cranberries", "Eggplant", "Grape"]
 
 # Creates a dictionary containing the buy and sell price of crops. Retrieves
@@ -102,15 +102,16 @@ def print_options(array, nummed=1, direction="horiz"):
     """
     to_print = []
     if (nummed):
-        for option in range(0 ,len(array)):
+        for option in range(len(array)):
             # if-else statement that prevents options from becoming vertically
-            # disaligned due to option numbering reaching 2 digits in length.
-            if len(array) >= 9 and direction == "vert" and (option + 1) < 10:
-                to_print.append("{}.  {}".format(option + 1, array[option]))
+            # disaligned due to option numbering reaching n digits in length.
+            if direction == "vert":
+                to_print.append("{0:{space}}. {1}".format(option + 1, 
+                    array[option], space=len(str(len(array)))))
             else:
                 to_print.append("{}. {}".format(option + 1, array[option]))
     else:
-        for option in range(0 ,len(array)):
+        for option in range(len(array)):
             to_print.append(array[option])
 
     if direction == "horiz":
@@ -277,17 +278,25 @@ def per_day_income(crop_name, date):
         # Number of days left after the crop has fully grown.
         post_growth_days = 28 - date - crop_growth["grow_time"]
         # Possible number of harvests that can be done before the crop dies.
+        # Starts with +1 because of the initial harvest when growth_time is done.
         most_n_harvests = 1 + post_growth_days // crop_growth["produce_time"]
         # Changes 'most_n_harvests' if it conflicts with the max number of
-        # times that it can physically be harvested.
+        # times that it can physically be harvested. If it has a negative value,
+        # change it to the more sensible value of 0.
         if most_n_harvests > crop_growth["harvests_per_crop"]:
             most_n_harvests = crop_growth["harvests_per_crop"]
+        elif most_n_harvests < 0:
+            most_n_harvests = 0
         # Total number of days from when it's planted until it's last day of
         # possible harvest.
-        total_days = crop_growth["grow_time"] + (most_n_harvests - 1) * crop_growth["produce_time"]
+        if most_n_harvests == 0:
+            total_days = crop_growth["grow_time"]
+        else:
+            total_days = crop_growth["grow_time"] + (most_n_harvests - 1) * crop_growth["produce_time"]
+        # To prevent ZeroDivisionErrors as well as false income_per_day values,
+        # if total_days is 0 or less, just set income_per_day to 0.
         income_per_day = (most_n_harvests * crop_values["sell_price"] - 
                 crop_values["buy_price"]) / total_days
-
         return income_per_day
     # Else-block is triggered if the crop is NOT a multi-harvestable crop
     # (e.g. potatoes)
@@ -359,10 +368,17 @@ def determine_purchase(budget, number_seeds, type_seeds):
     while True:
         clear_screen()
         # Prints out a sentence for every seed specifying how many you should 
-        # buy and of which type.
+        # buy and of which type. Skips any sentence that says to buy 0 seeds.
         for i in range(len(seeds_to_purchase)):
-            print("You should purchase {} {} seeds.".format(\
-                                    int(seeds_to_purchase[i]), type_seeds[i]))
+            if seeds_to_purchase[i] == 0:
+                continue
+            print("You should purchase {} {} seeds.".format(
+                int(seeds_to_purchase[i]), type_seeds[i]))
+        # If the sum of seeds_to_purchase equals, it must mean that the user
+        # has not been told to buy any seeds in the for loop above. Thus, 
+        # a sentence telling them not to buy any seeds is printed.
+        if sum(seeds_to_purchase) == 0:
+            print("You should not buy any seeds.")
         print("")
         print("What would you like to do now?")
         options = ["Return to main menu", "Exit"]
