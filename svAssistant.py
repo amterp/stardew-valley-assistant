@@ -316,7 +316,6 @@ def per_day_income(crop_name, date, budget, number_seeds):
         # if total_days is 0 or less, just set income_per_day to 0.
         income_per_day = (most_n_harvests * crop_values["sell_price"] - 
                 crop_values["buy_price"]) / total_days
-        return income_per_day
     # Else-block is triggered if the crop is NOT a multi-harvestable crop
     # (e.g. potatoes)
     else:
