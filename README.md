@@ -1,22 +1,18 @@
-# stardew-valley-assistant
+# Stardew Valley Assistant
+As assistant application that allows the user to input the date, budget, and desired number and types of seeds in the video game Stardew Valley, and provides the optimal types and amounts of seeds to purchase.
 
-By: Terpal47
+### GUI Edition
+Currently being worked on. Started development 9+ months after the initial release of the original command line SVA.
+Aims to:
+    - Provide a graphical user interface (GUI). The original used a command line which isn't very appealing, particularly to the general public. The addition of a GUI will make use of the program far simpler and faster.
+    - Overhaul calculation algorithms. Found some errors in the original and so this edition will try to create a correct algorithm.
 
-Description:
+##### Requirements
+In order to compile from source code, the following module(s) are required:
+    - tkinter
 
-As assistant application that allows the user to input the date, budget, and desired
-number and types of seeds in the video game Stardew Valley, and returns the optimal
-types and amounts of seeds to purchase.
+### Legacy Edition
+The original project in command line form. Not recommended once GUI Edition is released as the GUI Edition will feature more than just visual changes, but also back-end calculaton changes.
 
-INSTALLATION:
-
-0. Install Python 3 or higher (Google it if unsure how, you'll see it's a simple process)
-1. Go to https://github.com/Terpal47/stardew-valley-assistant
-2. Click on "Download Zip"
-3. Extract the zip into an accessable folder of your choice.
-
-LAUNCHING:
-
-1. Go to folder in which the files are extracted.
-2. Go into the stardew-valley-assistant-master folder.
-3. Double click on svAssistant.py (make sure Python 3+ is installed)
+##### Demo:
+![legacy edition demo](http://i.imgur.com/b70fafe.gifv)
