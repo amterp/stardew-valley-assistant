@@ -15,4 +15,4 @@ In order to compile from source code, the following module(s) are required:
 The original project in command line form. Not recommended once GUI Edition is released as the GUI Edition will feature more than just visual changes, but also back-end calculaton changes.
 
 ##### Demo:
-![legacy edition demo](http://i.imgur.com/b70fafe.gifv)
+![legacy edition demo](http://i.imgur.com/b70fafe.gif)
