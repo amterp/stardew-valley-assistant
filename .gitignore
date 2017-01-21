@@ -1,7 +1,2 @@
-# Ignore optimized python files
-*.pyc
-
-# Ignore editor tmp files
-*.swp
-*~
-demo.gif
+GUI Edition/window2.py
+GUI Edition/test.py
