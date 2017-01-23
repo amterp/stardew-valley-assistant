@@ -1,24 +1,24 @@
-name,buy_price,sell_price,growth_time,harvest_yield
-Cauliflower,80,175,12,1
-Garlic,40,60,4,1
-Kale,70,110,6,1
-Parsnip,20,35,4,1
-Potato,50,80,6,1.2
-Rhubarb,100,220,13,1
-Blue Jazz,30,50,7,1
-Tulip,20,30,6,1
-Melon,80,250,12,1
-Radish,40,90,6,1
-Red Cabbage,100,260,9,1
-Starfruit,400,750,13,1
-Wheat,10,25,4,1
-Poppy,100,140,7,1
-Summer Spangle,50,90,8,1
-Sunflower,200,80,8,1
-Amaranth,70,150,7,1
-Artichoke,30,160,8,1
-Beet,20,100,6,1
-Bok Choy,50,80,4,1
-Pumpkin,100,320,13,1
-Yam,60,160,10,1
-Fairy Rose,200,290,12,1
+name,buy_price,sell_price,growth_time,harvest_yield,season1,season2
+Cauliflower,80,175,12,1,spring,
+Garlic,40,60,4,1,spring,
+Kale,70,110,6,1,spring,
+Parsnip,20,35,4,1,spring,
+Potato,50,80,6,1.2,spring,
+Rhubarb,100,220,13,1,spring,
+Blue Jazz,30,50,7,1,spring,
+Tulip,20,30,6,1,spring,
+Melon,80,250,12,1,summer,
+Radish,40,90,6,1,summer,
+Red Cabbage,100,260,9,1,summer,
+Starfruit,400,750,13,1,summer,
+Wheat,10,25,4,1,summer,
+Poppy,100,140,7,1,summer,
+Summer Spangle,50,90,8,1,summer,
+Sunflower,200,80,8,1,summer,fall
+Amaranth,70,150,7,1,fall,
+Artichoke,30,160,8,1,fall,
+Beet,20,100,6,1,fall,
+Bok Choy,50,80,4,1,fall,
+Pumpkin,100,320,13,1,fall,
+Yam,60,160,10,1,fall,
+Fairy Rose,200,290,12,1,fall,

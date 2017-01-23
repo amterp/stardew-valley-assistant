@@ -76,6 +76,9 @@ def import_crops(data):
             info = [row["name"], row["buy_price"], row["sell_price"], 
                     row["growth_time"], row["harvest_yield"]]
             crop = Crop(*info)
+            crop.seasons = ([row["season1"], row["season2"]] if 
+                            row["season2"] else [row["season1"]])
+
             data.crops[row["name"]] = crop
 
     with open(REGENERATIVE_CROPS_CSV_FILE) as crop_values:
@@ -85,14 +88,10 @@ def import_crops(data):
                     row["growth_time"], row["harvest_yield"], 
                     row["regrowth_time"],row["max_harvests"]]
             crop = RegenerativeCrop(*info)
+            crop.seasons = ([row["season1"], row["season2"]] if 
+                            row["season2"] else [row["season1"]])
+            
             data.crops[row["name"]] = crop
-
-    with open(CROP_SEASONS_CSV_FILE) as crop_values:
-        crop_values = csv.reader(crop_values)
-        next(crop_values)   # Skip header
-        for row in crop_values:
-            data.crops[row[0]].seasons = [*[season for season in row[1:] if 
-                                            season]]
 
 def asd(season, date, budget, num_seeds_to_buy, data):
     available_crops = [crop.name for crop in list(data.crops.values()) 
