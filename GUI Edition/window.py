@@ -74,7 +74,7 @@ budget_entry.grid(row=2, column=1, pady=3, padx=3, sticky=E+N)
 
 
 # Define num seeds segment.
-num_seeds_label = Label(top_frame, text='# Seeds to buy:')
+num_seeds_label = Label(top_frame, text='Max # seeds:')
 num_seeds_entry = Entry(top_frame, justify=CENTER)
 num_seeds_entry.config(width=18)
 
