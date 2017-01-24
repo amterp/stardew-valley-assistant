@@ -194,20 +194,23 @@ def get_final_gold(season, date, budget, max_num_seeds, data, recursive=0):
             print(long_possible_paths)
             print("")
 
-        # Merge long-term crops' final golds with their short-term.
+        # Merge long-term crops' final golds with their short-term. Put long
+        # term gold in front of short term gold.
         for path in long_possible_paths:
             path_names = [short_path[0] for short_path in possible_paths]
             index = path_names.index(path[0])
 
-            possible_paths[index].append(path[1])
+            possible_paths[index].insert(1, path[1])
+
+    possible_paths = sorted(possible_paths, key=lambda x: x[1], reverse=1)
 
     # Return an array of arrays where each inner array contains:
     # 0: The name of the crop.
     # 1: The final gold if the player were to plant this all season.
     # 2: The final gold if the player were to plant this for the current and
     #    next season (if applicable). Otherwise, there's no [2] index.
+    # The array is sorted by descending final_gold values.
     return possible_paths
     
-
-import_crops(data)
-print(get_final_gold("summer", 6, 200, 36, data))
+#import_crops(data)
+#print(get_final_gold("summer", 6, 200, 36, data))

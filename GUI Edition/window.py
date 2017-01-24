@@ -13,15 +13,6 @@ def clear():
     for entry in entries:
         eval(entry + "_entry.delete(0, END)")
 
-def add_checkbox(Frame, row, label, ngi=None):
-    if (ngi != None):
-        num_letters = 35 - len(label) - 6 # 6 for NGI text.
-        label += " " * num_letters
-        label = "{}{:5.3f}".format(label, ngi)
-
-    checkbox = Checkbutton(Frame, text=label, bg='WHITE')
-    checkbox.grid(row=row, sticky=W)
-
 root = Tk()
 Grid.rowconfigure(root, 0, weight=0)
 Grid.columnconfigure(root, 0, weight=1)
@@ -105,10 +96,6 @@ Define middle frame. Will contain:
 middle_frame = Frame(root, relief=SUNKEN)
 middle_frame.configure(bg="WHITE", bd=1)
 
-# EXAMPLES; REMOVE
-add_checkbox(middle_frame, 1, "Wheat", 54.323422525)
-add_checkbox(middle_frame, 2, "Strawberries", 12.7244)
-
 # Pack middle frame.
 middle_frame.pack(padx=20, fill=X)
 
@@ -116,6 +103,3 @@ middle_frame.pack(padx=20, fill=X)
 # Define and place status bar.
 status = Label(root, text='Idle', bd=1, relief=SUNKEN, anchor=W)
 status.pack(side=BOTTOM, fill=X)
-
-root.geometry('220x400')
-root.mainloop()
