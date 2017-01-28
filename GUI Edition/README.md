@@ -7,3 +7,8 @@ Aims to:
 ### Requirements
 In order to compile from source code, the following module(s) are required:
     - tkinter
+
+### Improvements
+    - Add calculation for trees
+    - Add calculation for livestock
+    - Allow input for fertilizer
