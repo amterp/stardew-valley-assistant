@@ -4,12 +4,12 @@ import tkinter as tk
 
 f.import_crops(f.data)
 
-def add_checkbox(Frame, row, label, final_gold, long_gold=None):
+def add_checkbox(Frame, row, label, gained_gold, long_gold=None):
     if (long_gold != None):
-        right_label = "{:5.2f} ({:6.2f})".format(final_gold, long_gold)
+        right_label = "{:5.2f} ({:6.2f})".format(gained_gold, long_gold)
 
     else:
-        right_label = "{:6.2f}".format(final_gold)
+        right_label = "{:6.2f}".format(gained_gold)
 
     num_letters = 35 - len(label) - len(right_label)
     label += " " * num_letters + right_label
@@ -24,7 +24,7 @@ def update_seeds():
         checkbox.destroy()
 
     # Get the crops that can be purchased based on input.
-    paths = f.get_final_gold(
+    paths = f.get_net_income(
         w.season_dropdown.get().lower(),
         int(w.date_entry.get()), 
         int(w.budget_entry.get()),

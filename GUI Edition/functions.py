@@ -93,7 +93,7 @@ def import_crops(data):
 
             data.crops[row["name"]] = crop
 
-def get_final_gold(season, date, budget, max_num_seeds, data, recursive=0):
+def get_net_income(season, date, budget, max_num_seeds, data, recursive=0):
     """ Given inputs taken from the GUI, returns all possible crops that can be
     bought and also calculates the amount of gold that the player would have at
     the end of the season if only that crop were harvested and returns that
@@ -138,7 +138,7 @@ def get_final_gold(season, date, budget, max_num_seeds, data, recursive=0):
             # Only add this crop if it's profitable i.e. player ends with more
             # gold than they started with.
             if gold > budget:
-                possible_paths.append( [crop.name, gold] )
+                possible_paths.append( [crop.name, gold - budget] )
 
         elif crop.regenerative:
             # Crop is regenerative.
@@ -186,12 +186,12 @@ def get_final_gold(season, date, budget, max_num_seeds, data, recursive=0):
             # Only add this crop if it's profitable i.e. player ends with more
             # gold than they started with.
             if gold > budget:
-                possible_paths.append( [crop.name, gold] )
+                possible_paths.append( [crop.name, gold - budget] )
 
     # Now check if there are crops that can span two seasons, including the
     # current season.
     if season == "summer" and not recursive:
-        long_possible_paths = get_final_gold("summer", date, budget,
+        long_possible_paths = get_net_income("summer", date, budget,
                                              max_num_seeds, data, 1)
 
         if DEBUG == 2:
@@ -211,8 +211,8 @@ def get_final_gold(season, date, budget, max_num_seeds, data, recursive=0):
 
     # Return an array of arrays where each inner array contains:
     # 0: The name of the crop.
-    # 1: The final gold if the player were to plant this all season.
-    # 2: The final gold if the player were to plant this for the current and
+    # 1: The gold gained if the player were to plant this all season.
+    # 2: The gold gained if the player were to plant this for the current and
     #    next season (if applicable). Otherwise, there's no [2] index.
-    # The array is sorted by descending final_gold values.
+    # The array is sorted by descending gold gained values.
     return possible_paths
