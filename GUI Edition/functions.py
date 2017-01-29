@@ -135,7 +135,10 @@ def get_final_gold(season, date, budget, max_num_seeds, data, recursive=0):
                 gold -= buy_amount * crop.buy_price
                 gold += buy_amount * crop.sell_price * crop.harvest_yield
 
-            possible_paths.append( [crop.name, gold] )
+            # Only add this crop if it's profitable i.e. player ends with more
+            # gold than they started with.
+            if gold > budget:
+                possible_paths.append( [crop.name, gold] )
 
         elif crop.regenerative:
             # Crop is regenerative.
@@ -180,8 +183,10 @@ def get_final_gold(season, date, budget, max_num_seeds, data, recursive=0):
                             break
             if DEBUG == 2: print(planner)
 
-
-            possible_paths.append( [crop.name, gold] )
+            # Only add this crop if it's profitable i.e. player ends with more
+            # gold than they started with.
+            if gold > budget:
+                possible_paths.append( [crop.name, gold] )
 
     # Now check if there are crops that can span two seasons, including the
     # current season.
@@ -211,6 +216,3 @@ def get_final_gold(season, date, budget, max_num_seeds, data, recursive=0):
     #    next season (if applicable). Otherwise, there's no [2] index.
     # The array is sorted by descending final_gold values.
     return possible_paths
-    
-#import_crops(data)
-#print(get_final_gold("summer", 6, 200, 36, data))
