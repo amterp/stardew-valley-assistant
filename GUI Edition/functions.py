@@ -6,6 +6,9 @@
 import csv
 from math import ceil
 
+# Used to help user in case they enter information incorrectly.
+from window import status
+
 # Define global macro values.
 SINGLE_HARVEST_CROPS_CSV_FILE = "csv_files/single_harvest_crops.csv"
 REGENERATIVE_CROPS_CSV_FILE = "csv_files/regenerative_crops.csv"
@@ -102,6 +105,30 @@ def get_net_income(season, date, budget, max_num_seeds, data, recursive=0):
     the first call to calculate final gold for crops that can span two seasons.
     """
     
+    # Ensure given arguments are valid. ---------------------------------------
+
+    # Check that season is valid.
+    if season not in ["spring", "summer", "fall"]:
+        status.config(text = "Error, invalid input (season)")
+        return
+
+    # Check valid date.
+    if not (str(date).isdigit() and date >= 1 and date <= 28):
+        status.config(text = "Error, invalid input (date)")
+        return
+
+    # Check valid budget.
+    if not (str(budget).isdigit() and budget >= 1):
+        status.config(text = "Error, invalid input (budget)")
+        return
+
+    # Check valid max_num_seeds.
+    if not (str(max_num_seeds).isdigit() and max_num_seeds >= 1):
+        status.config(text = "Error, invalid input (Max # seeds)")
+        return
+
+    # Argument checking finished. ---------------------------------------------
+
     if not recursive:
         # Must be first call of the function.
         num_days = DAYS_IN_SEASON - date

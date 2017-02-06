@@ -40,6 +40,10 @@ def update_seeds():
         int(w.num_seeds_entry.get()),
         f.data)
 
+    # Check if crop net gold incomes were successfully retrieved.
+    if paths == None:
+        return
+
     # Add a new checkbox for each crop.
     row = 1
     for path in paths:
