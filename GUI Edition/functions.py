@@ -203,9 +203,19 @@ def get_net_income(season, date, budget, max_num_seeds, data, recursive=0):
         # term gold in front of short term gold.
         for path in long_possible_paths:
             path_names = [short_path[0] for short_path in possible_paths]
-            index = path_names.index(path[0])
 
-            possible_paths[index].insert(1, path[1])
+            try:
+                index = path_names.index(path[0])
+                possible_paths[index].insert(1, path[1])
+            except ValueError:
+                # Occurs when crop is in long_possible_paths but not (short)
+                # possible_paths. E.g. Corn in summer with date=12, budget=222,
+                # max seeds=12. Corn is not profitable if grown just for the
+                # rest of summer, so not added to possible_paths. However, if 
+                # grown in spring too, it's profitable and so is added to the
+                # list.
+                
+                possible_paths.append(path)
 
     possible_paths = sorted(possible_paths, key=lambda x: x[1], reverse=1)
 
