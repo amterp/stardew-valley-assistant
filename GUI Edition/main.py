@@ -5,6 +5,8 @@ import tkinter as tk
 f.import_crops(f.data)
 
 def add_checkbox(Frame, row, label, gained_gold, long_gold=None):
+    """ Given a seed and it's associated gold income, adds a checkbox to
+    Frame (middle_frame). """
     if (long_gold != None):
         right_label = "{:5.2f} ({:6.2f})".format(gained_gold, long_gold)
 
@@ -18,6 +20,10 @@ def add_checkbox(Frame, row, label, gained_gold, long_gold=None):
     checkbox.grid(row=row, sticky=tk.W)
 
 def update_seeds():
+    """ Called when the Update Seeds button is pressed. Takes the inputs given
+    in the fields above the button (budget, season, date, max # seeds) and then
+    fills the below frame with possible seeds and their associated gold income.
+     """
 
     # Destroy existing choices.
     for checkbox in w.middle_frame.winfo_children():
@@ -37,6 +43,7 @@ def update_seeds():
         add_checkbox(w.middle_frame, row, *path)
         row += 1
 
+# Associate a function with the Update Seeds button.
 w.update_seeds_button.config(command = update_seeds)
 
 # Open GUI and program.
